@@ -1,4 +1,4 @@
-namespace F1_Fantasy_API.Models;
+namespace F1_Fantasy_API.Models.Entites;
 
 public class ConstructorSelection
 {
