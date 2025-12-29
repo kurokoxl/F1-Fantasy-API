@@ -23,8 +23,6 @@
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
   </ItemGroup>
     <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\Dtos\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

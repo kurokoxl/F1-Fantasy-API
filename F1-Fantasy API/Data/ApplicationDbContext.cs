@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace F1_Fantasy_API.Data.Configurations
+namespace F1_Fantasy_API.Data
 {
     public class ApplicationDbContext:IdentityDbContext<User>
     {
-        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        //: base(options)
-        //{
-        //}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+        {
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -28,54 +28,44 @@ namespace F1_Fantasy_API.Data.Configurations
                 new Constructor { ConstructorId = 4, Name = "Ferrari" },
                 new Constructor { ConstructorId = 5, Name = "Aston Martin" },
                 new Constructor { ConstructorId = 6, Name = "Williams" },
-                new Constructor { ConstructorId = 7, Name = "RB F1 Team" },
+                new Constructor { ConstructorId = 7, Name = "Racing Bulls" },
                 new Constructor { ConstructorId = 8, Name = "Haas F1 Team" },
-                new Constructor { ConstructorId = 9, Name = "Sauber" },
-                new Constructor { ConstructorId = 10, Name = "Alpine F1 Team" }
+                new Constructor { ConstructorId = 9, Name = "Kick Sauber" },
+                new Constructor { ConstructorId = 10, Name = "Alpine" }
             );
 
-            // Seed Drivers (2025 F1 Season - Corrected team assignments)
             builder.Entity<Driver>().HasData(
-                // McLaren
-                new Driver { DriverId = 1, ConstructorId = 1, Name = "Lando Norris", Price = 30 },
-                new Driver { DriverId = 2, ConstructorId = 1, Name = "Oscar Piastri", Price = 28 },
-                
-                // Red Bull
-                new Driver { DriverId = 3, ConstructorId = 2, Name = "Max Verstappen", Price = 29 },
-                new Driver { DriverId = 4, ConstructorId = 2, Name = "Yuki Tsunoda", Price = 16 },
-                
-                // Mercedes
-                new Driver { DriverId = 5, ConstructorId = 3, Name = "George Russell", Price = 26 },
-                new Driver { DriverId = 6, ConstructorId = 3, Name = "Andrea Kimi Antonelli", Price = 15 },
-                
-                // Ferrari
-                new Driver { DriverId = 7, ConstructorId = 4, Name = "Charles Leclerc", Price = 25 },
-                new Driver { DriverId = 8, ConstructorId = 4, Name = "Lewis Hamilton", Price = 27 },
-                
-                // Aston Martin
-                new Driver { DriverId = 9, ConstructorId = 5, Name = "Fernando Alonso", Price = 16 },
-                new Driver { DriverId = 10, ConstructorId = 5, Name = "Lance Stroll", Price = 14 },
-                
-                // Williams
-                new Driver { DriverId = 11, ConstructorId = 6, Name = "Alex Albon", Price = 17 },
-                new Driver { DriverId = 12, ConstructorId = 6, Name = "Carlos Sainz", Price = 22 },
-                
-                // RB F1 Team
-                new Driver { DriverId = 13, ConstructorId = 7, Name = "Liam Lawson", Price = 13 },
-                new Driver { DriverId = 14, ConstructorId = 7, Name = "Isack Hadjar", Price = 8 },
-                
-                // Haas F1 Team
-                new Driver { DriverId = 15, ConstructorId = 8, Name = "Esteban Ocon", Price = 14 },
-                new Driver { DriverId = 16, ConstructorId = 8, Name = "Oliver Bearman", Price = 9 },
-                
-                // Sauber
-                new Driver { DriverId = 17, ConstructorId = 9, Name = "Nico Hulkenberg", Price = 15 },
-                new Driver { DriverId = 18, ConstructorId = 9, Name = "Gabriel Bortoleto", Price = 10 },
-                
-                // Alpine F1 Team
-                new Driver { DriverId = 19, ConstructorId = 10, Name = "Pierre Gasly", Price = 12 },
-                new Driver { DriverId = 20, ConstructorId = 10, Name = "Jack Doohan", Price = 7 }
-            );
+          new Driver { DriverId = 1, ConstructorId = 1, Name = "Lando Norris", Price = 58 },
+          new Driver { DriverId = 2, ConstructorId = 1, Name = "Oscar Piastri", Price = 50 },
+
+          new Driver { DriverId = 3, ConstructorId = 2, Name = "Max Verstappen", Price = 60 },
+          new Driver { DriverId = 4, ConstructorId = 2, Name = "Yuki Tsunoda", Price = 30 },
+
+          new Driver { DriverId = 5, ConstructorId = 3, Name = "George Russell", Price = 48 },
+          new Driver { DriverId = 6, ConstructorId = 3, Name = "Andrea Kimi Antonelli", Price = 21 },
+
+          new Driver { DriverId = 7, ConstructorId = 4, Name = "Charles Leclerc", Price = 56 },
+          new Driver { DriverId = 8, ConstructorId = 4, Name = "Lewis Hamilton", Price = 55 },
+
+          new Driver { DriverId = 9, ConstructorId = 5, Name = "Fernando Alonso", Price = 40 },
+          new Driver { DriverId = 10, ConstructorId = 5, Name = "Lance Stroll", Price = 26 },
+
+          new Driver { DriverId = 11, ConstructorId = 6, Name = "Alex Albon", Price = 38 },
+          new Driver { DriverId = 12, ConstructorId = 6, Name = "Carlos Sainz", Price = 47 },
+
+          new Driver { DriverId = 13, ConstructorId = 7, Name = "Liam Lawson", Price = 22 },
+          new Driver { DriverId = 14, ConstructorId = 7, Name = "Isack Hadjar", Price = 16 },
+
+          new Driver { DriverId = 15, ConstructorId = 8, Name = "Esteban Ocon", Price = 28 },
+          new Driver { DriverId = 16, ConstructorId = 8, Name = "Oliver Bearman", Price = 20 },
+
+          new Driver { DriverId = 17, ConstructorId = 9, Name = "Nico Hulkenberg", Price = 27 },
+          new Driver { DriverId = 18, ConstructorId = 9, Name = "Gabriel Bortoleto", Price = 18 },
+
+          new Driver { DriverId = 19, ConstructorId = 10, Name = "Pierre Gasly", Price = 36 },
+          new Driver { DriverId = 20, ConstructorId = 10, Name = "Franco Colapinto", Price = 15 }
+         );
+
 
             // Seed Races (2025 F1 Season - 24 races from actual calendar)
             builder.Entity<Race>().HasData(
