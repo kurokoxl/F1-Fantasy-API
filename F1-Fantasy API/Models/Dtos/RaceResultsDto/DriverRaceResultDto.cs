@@ -1,5 +1,5 @@
 ﻿
-namespace F1_Fantasy_API.Models.Dtos.ResultsDto
+namespace F1_Fantasy_API.Models.Dtos.RaceResultsDto
 {
     public class DriverRaceResultDto
     {

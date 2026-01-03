@@ -1,6 +1,7 @@
 ﻿using F1_Fantasy_API.Data;
 using F1_Fantasy_API.Models.Entites;
 using F1_Fantasy_API.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace F1_Fantasy_API.Repositories
 {
@@ -8,6 +9,7 @@ namespace F1_Fantasy_API.Repositories
     {
         public RaceRepository(ApplicationDbContext context) : base(context)
         {
+            
         }
     }
 }

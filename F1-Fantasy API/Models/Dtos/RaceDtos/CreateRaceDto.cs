@@ -1,11 +1,21 @@
-﻿namespace F1_Fantasy_API.Models.Dtos.RaceDtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace F1_Fantasy_API.Models.Dtos.RaceDtos
 {
     public class CreateRaceDto
     {
+        [Required]
         public int Season { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string CircuitName { get; set; } = string.Empty;
+        [Required]
+        [StringLength(100, MinimumLength = 2)]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(100, MinimumLength = 2)]
+        public string CircuitName { get; set; }
+        [Required]
+        [Range(1, 500)]
         public int Laps { get; set; }
+        [Required]
         public DateTime Date { get; set; }
     }
 }

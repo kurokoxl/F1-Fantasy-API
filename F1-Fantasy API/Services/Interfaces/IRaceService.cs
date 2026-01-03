@@ -1,12 +1,13 @@
 ﻿using F1_Fantasy_API.Models.Dtos.RaceDtos;
 using F1_Fantasy_API.Models.Entites;
+using F1_Fantasy_API.Services;
 
-internal interface IRaceService
+public interface IRaceService
 {
-    Task<IEnumerable<RaceDto>> GetRacesAsync();
-    Task<RaceDto?> GetRaceByIdAsync(int id);
-    Task<RaceDto?> AddRaceAsync(CreateRaceDto createDto);
-    Task<RaceDto?> UpdateRaceAsync(int id,UpdateRaceDto updateDto);
-    Task<bool> DeleteRace(int id);
+    Task<Result<IEnumerable<RaceDto>>> GetRacesAsync();
+    Task<Result<RaceDto>> GetRaceByIdAsync(int id);
+    Task<Result<RaceDto>> AddRaceAsync(CreateRaceDto createDto);
+    Task<Result<RaceDto>> UpdateRaceAsync(int id,UpdateRaceDto updateDto);
+    Task<Result<bool>> DeleteRace(int id);
 
 }

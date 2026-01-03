@@ -2,8 +2,7 @@
 
 namespace F1_Fantasy_API.Repositories.Interfaces
 {
-    public interface IRaceRepository : IRepository<Race>
+    public interface IDriverRaceResultRepository : IRepository<DriverRaceResult>
     {
-        //
     }
 }

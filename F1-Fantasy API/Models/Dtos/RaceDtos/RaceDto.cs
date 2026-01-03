@@ -1,5 +1,6 @@
-﻿using F1_Fantasy_API.Models.Dtos.ResultsDto;
+﻿using F1_Fantasy_API.Models.Dtos.RaceResultsDto;
 using F1_Fantasy_API.Models.Entites;
+using System.ComponentModel.DataAnnotations;
 
 namespace F1_Fantasy_API.Models.Dtos.RaceDtos
 {
@@ -7,8 +8,12 @@ namespace F1_Fantasy_API.Models.Dtos.RaceDtos
     {
         public int RaceId { get; set; }
         public int Season { get; set; }
+
+
         public string Name { get; set; } = string.Empty;
+
         public string CircuitName { get; set; } = string.Empty;
+
         public int Laps { get; set; }
         public DateTime Date { get; set; }
         public List<DriverRaceResultDto> DriverRaceResults { get; set; } = new();

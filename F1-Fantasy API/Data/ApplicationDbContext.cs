@@ -7,6 +7,14 @@ namespace F1_Fantasy_API.Data
 {
     public class ApplicationDbContext:IdentityDbContext<User>
     {
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Constructor> Constructors { get; set; }
+        public DbSet<Race> Races { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<DriverSelection> DriverSelections { get; set; }
+        public DbSet<ConstructorSelection> ConstructorSelections { get; set; }
+        public DbSet<DriverRaceResult> DriverRaceResults { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
         {

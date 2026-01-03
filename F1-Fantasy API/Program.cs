@@ -1,3 +1,4 @@
+using F1_Fantasy_API;
 using F1_Fantasy_API.Data;
 using F1_Fantasy_API.Models.Entites;
 using F1_Fantasy_API.Repositories;
@@ -7,12 +8,12 @@ using F1_Fantasy_API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//db - Register DbContext FIRST
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -27,14 +28,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Register Services
-builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddControllers();
-
-builder.Services.AddOpenApi();
-
-builder.Services.AddSwaggerGen();
 //security
 builder.Services.AddAuthentication(options =>
 {
@@ -56,9 +50,25 @@ builder.Services.AddAuthentication(options =>
        };
    });
 
+// Register Services
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddControllers();
+
+builder.Services.AddOpenApi();
+
+builder.Services.AddSwaggerGen();
+
 //services
+builder.Services.AddAutoMapper(typeof(MappingProfile)); 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+//race 
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+builder.Services.AddScoped<IRaceService, RaceService>();
+//driver
+builder.Services.AddScoped<IDriverRepository, DriverRepository>();
+builder.Services.AddScoped<IDriverService, DriverService>();
+
 
 var app = builder.Build();
 
