@@ -3,8 +3,6 @@ using F1_Fantasy_API.Models.Dtos.RaceDtos;
 using F1_Fantasy_API.Models.Entites;
 using F1_Fantasy_API.Repositories.Interfaces;
 using F1_Fantasy_API.Services;
-using Microsoft.VisualStudio.Services.TestManagement.TestPlanning.WebApi;
-using System.Collections.Generic;
 
 internal class RaceService : IRaceService
 {
@@ -17,7 +15,7 @@ internal class RaceService : IRaceService
     }
     public async Task<Result<RaceDto>> AddRaceAsync(CreateRaceDto createDto)
     {
-        var validation = await ValidateRaceLogicAsync(createDto.Season,createDto.Date);
+        var validation = await ValidateRaceLogicAsync(createDto.Season, createDto.Date);
         if (!validation.IsSuccess) return Result<RaceDto>.Failure(validation.Error);
 
         var race = _mapper.Map<Race>(createDto);
@@ -37,9 +35,9 @@ internal class RaceService : IRaceService
         if (race == null)
             return Result<bool>.Failure("Race doesn't exisit");
 
-         _raceRepository.Delete(race);
+        _raceRepository.Delete(race);
 
-         bool isSaved = await _raceRepository.SaveChangesAsync();
+        bool isSaved = await _raceRepository.SaveChangesAsync();
         if (!isSaved)
             return Result<bool>.Failure("Failed to save changes");
 
@@ -48,10 +46,15 @@ internal class RaceService : IRaceService
 
     public async Task<Result<RaceDto>> GetRaceByIdAsync(int id)
     {
-        return Result<RaceDto>
-            .Success(_mapper.Map<RaceDto>
-            (await _raceRepository.GetByIdAsync(id))
-            );
+        var race = await _raceRepository.GetByIdAsync(id);
+
+        // 2. Explicit check for existence
+        if (race == null)
+        {
+            return Result<RaceDto>.Failure($"Race with ID {id} was not found.");
+        }
+
+        return Result<RaceDto>.Success(_mapper.Map<RaceDto>(race));
     }
 
     public async Task<Result<IEnumerable<RaceDto>>> GetRacesAsync()
@@ -62,7 +65,7 @@ internal class RaceService : IRaceService
                 );
     }
 
-    public async Task<Result<RaceDto>> UpdateRaceAsync(int id,UpdateRaceDto updateDto)
+    public async Task<Result<RaceDto>> UpdateRaceAsync(int id, UpdateRaceDto updateDto)
     {
         //validate
 

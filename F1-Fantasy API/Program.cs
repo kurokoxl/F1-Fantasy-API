@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+//we can validate if the race is finished by checking the date < today before we can add results 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -68,6 +68,9 @@ builder.Services.AddScoped<IRaceService, RaceService>();
 //driver
 builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 builder.Services.AddScoped<IDriverService, DriverService>();
+//driverRaceResult
+builder.Services.AddScoped<IDriverRaceResultRepository, DriverRaceResultRepository>();
+builder.Services.AddScoped<IDriverRaceResultRaceResultService, DriverRaceResultService>();
 
 
 var app = builder.Build();

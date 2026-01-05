@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using F1_Fantasy_API.Models.Dtos.DriverDtos;
 using F1_Fantasy_API.Models.Dtos.RaceDtos;
+using F1_Fantasy_API.Models.Dtos.RaceResultsDto;
 using F1_Fantasy_API.Models.Entites;
 
 namespace F1_Fantasy_API
@@ -18,6 +19,10 @@ namespace F1_Fantasy_API
             CreateMap<Driver, DriverDto>();
             CreateMap<CreateDriverDto, Driver>();
             CreateMap<UpdateDriverDto, Driver>();
+
+            //DriverRaceResult
+            CreateMap<DriverRaceResult, DriverRaceResultDto>();
+            CreateMap<CreateDriverRaceResultDto, DriverRaceResult>();
         }
     }
 }

@@ -27,9 +27,8 @@ namespace F1_Fantasy_API.Services
             var driver = _mapper.Map<Driver>(createDto);
             await _driverRepository.AddAsync(driver);
 
-            bool isSaved = await _driverRepository.SaveChangesAsync();
-            if (!isSaved)
-                return Result<DriverDto>.Failure("Failed to save changes");
+            await _driverRepository.SaveChangesAsync();
+         
             return Result<DriverDto>.Success(_mapper.Map<DriverDto>(driver));
         }
 
@@ -50,10 +49,14 @@ namespace F1_Fantasy_API.Services
 
         public async Task<Result<DriverDto>> GetDriverByIdAsync(int id)
         {
-            return Result<DriverDto>
-            .Success(_mapper.Map<DriverDto>
-            (await _driverRepository.GetByIdAsync(id))
-            );
+            var driver = await _driverRepository.GetByIdAsync(id);
+
+            if (driver == null)
+            {
+                return Result<DriverDto>.Failure($"Driver with ID {id} was not found.");
+            }
+
+            return Result<DriverDto>.Success(_mapper.Map<DriverDto>(driver));
         }
 
         public async Task<Result<IEnumerable<DriverDto>>> GetDriversAsync()

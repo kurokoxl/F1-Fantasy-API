@@ -2,6 +2,7 @@
 using F1_Fantasy_API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq.Expressions;
 
 namespace F1_Fantasy_API.Repositories;
 
@@ -27,4 +28,8 @@ public class Repository<T> : IRepository<T> where T : class
     public void Delete(T entity) => _dbSet.Remove(entity);
 
     public async Task<bool> SaveChangesAsync() => await _context.SaveChangesAsync() > 0;
+    public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.AnyAsync(predicate);
+    }
 }

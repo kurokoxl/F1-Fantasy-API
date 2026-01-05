@@ -1,4 +1,6 @@
-﻿namespace F1_Fantasy_API.Repositories.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace F1_Fantasy_API.Repositories.Interfaces
 {
     public interface IRepository<T> where T:class
     {
@@ -8,5 +10,6 @@
         void Update(T entity);
         void Delete(T entity);
         Task<bool> SaveChangesAsync();
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
     }
 }
