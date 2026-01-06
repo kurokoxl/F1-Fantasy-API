@@ -9,5 +9,4 @@ public interface IRaceService
     Task<Result<RaceDto>> AddRaceAsync(CreateRaceDto createDto);
     Task<Result<RaceDto>> UpdateRaceAsync(int id,UpdateRaceDto updateDto);
     Task<Result<bool>> DeleteRace(int id);
-
 }

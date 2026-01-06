@@ -13,6 +13,7 @@ namespace F1_Fantasy_API.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly RoleManager<User> _roleManager;
 
         public AuthService(UserManager<User> userManager, IConfiguration configuration)
         {
@@ -20,12 +21,32 @@ namespace F1_Fantasy_API.Services
             _configuration = configuration;
         }
 
+ 
+            public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
+            {
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roleNames = { "Admin", "User" };
+
+                foreach (var roleName in roleNames)
+                {
+                    if (!await roleManager.RoleExistsAsync(roleName))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+            }
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto model)
         {
             var user = new User
             {
                 UserName = model.Username,
-                Email = model.Email
+                Email = model.Email,
+                Balance = 100, // Set before creating
+                Team = new Team
+                {
+                    Name = $"{model.Username}'s Racing Team"
+                }
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -36,6 +57,7 @@ namespace F1_Fantasy_API.Services
             await _userManager.AddToRoleAsync(user, "User");
             return new AuthResponseDto { Success = true, Message = "User created successfully!" };
         }
+
         public async Task<AuthResponseDto> LoginAsync(LoginDto model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);

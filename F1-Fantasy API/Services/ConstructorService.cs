@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using F1_Fantasy_API.Models.Dtos.ConstructorDtos;
+using F1_Fantasy_API.Models.Dtos.DriverDtos;
 using F1_Fantasy_API.Models.Entites;
+using F1_Fantasy_API.Repositories;
 using F1_Fantasy_API.Repositories.Interfaces;
 using F1_Fantasy_API.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace F1_Fantasy_API.Services
 {
@@ -34,25 +37,58 @@ namespace F1_Fantasy_API.Services
 
             return Result<ConstructorDto>.Success(_mapper.Map<ConstructorDto>(constructor));
         }
-
-        public Task<Result<bool>> DeleteConstructor(int id)
+        public async Task<Result<bool>> DeleteConstructor(int id)
         {
-            throw new NotImplementedException();
+            if (await _constructorRepository.CheckDrivers(id))
+            {
+                return Result<bool>.Failure("Can't delete constructor while there are drivers assigned to it.");
+            }
+
+            var constructor = await _constructorRepository.GetByIdAsync(id);
+            if (constructor == null) return Result<bool>.Failure("Not found.");
+
+            _constructorRepository.Delete(constructor);
+            await _constructorRepository.SaveChangesAsync();
+
+            return Result<bool>.Success(true);
         }
 
-        public Task<Result<ConstructorDto>> GetConstructorByIdAsync(int id)
+        public async Task<Result<ConstructorDto>> GetConstructorByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var constructor = await _constructorRepository.GetByIdAsync(id);
+
+            if (constructor == null)
+            {
+                return Result<ConstructorDto>.Failure($"Constructor with ID {id} was not found.");
+            }
+
+            return Result<ConstructorDto>.Success(_mapper.Map<ConstructorDto>(constructor));
         }
 
-        public Task<Result<IEnumerable<ConstructorDto>>> GetConstructorsAsync()
+        public async Task<Result<IEnumerable<ConstructorDto>>> GetConstructorsAsync()
         {
-            throw new NotImplementedException();
+            return Result<IEnumerable<ConstructorDto>>
+                      .Success(
+                          _mapper.Map<IEnumerable<ConstructorDto>>
+                          (await _constructorRepository.GetAllAsync()));
         }
 
-        public Task<Result<ConstructorDto>> UpdateConstructorAsync(int id, UpdateConstructorDto updateDto)
+        public async Task<Result<ConstructorDto>> UpdateConstructorAsync(int id, UpdateConstructorDto updateDto)
         {
-            throw new NotImplementedException();
+            if (updateDto.ConstructorId != id)
+            {
+                return Result<ConstructorDto>.Failure("Id mismatch");
+            }
+            if (await _constructorRepository.CheckName(updateDto.Name,updateDto.ConstructorId))
+            {
+                return Result<ConstructorDto>.Failure("A team with this name already exists.");
+            }
+
+            var constructor = await _constructorRepository.GetByIdAsync(id);
+            _mapper.Map(updateDto, constructor);
+            await _constructorRepository.SaveChangesAsync();
+
+            return Result<ConstructorDto>.Success(_mapper.Map<ConstructorDto>(constructor));
         }
     }
 }

@@ -15,10 +15,10 @@ namespace F1_Fantasy_API.Repositories
      
         }
 
-        public async Task<bool> CheckName(string name)
+        public async Task<bool> CheckName(string name, int? constructorId = null)
         {
-          return await _context.Constructors
-                .AnyAsync(c => c.Name == name);
+            return await _context.Constructors
+                .AnyAsync(c => c.Name == name && (constructorId == null || c.ConstructorId != constructorId));
         }
 
         public async Task<int> CheckNumber()

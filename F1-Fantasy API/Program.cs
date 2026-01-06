@@ -71,7 +71,12 @@ builder.Services.AddScoped<IDriverService, DriverService>();
 //driverRaceResult
 builder.Services.AddScoped<IDriverRaceResultRepository, DriverRaceResultRepository>();
 builder.Services.AddScoped<IDriverRaceResultRaceResultService, DriverRaceResultService>();
-
+//Constructor
+builder.Services.AddScoped<IConstructorRepository, ConstructorRepository>();
+builder.Services.AddScoped<IConstructorService, ConstructorService>();
+//User
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -81,7 +86,11 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI();
 }
-
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await AuthService.SeedRolesAsync(services);
+}
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
