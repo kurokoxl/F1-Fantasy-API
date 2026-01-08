@@ -517,6 +517,9 @@ namespace F1_Fantasy_API.Migrations
                     b.Property<int>("Season")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("RaceId");
 
                     b.ToTable("Races");
@@ -529,7 +532,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 57,
                             Name = "Australian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 0
                         },
                         new
                         {
@@ -538,7 +542,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 56,
                             Name = "Chinese Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -547,7 +552,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 53,
                             Name = "Japanese Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -556,7 +562,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 57,
                             Name = "Bahrain Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -565,7 +572,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 50,
                             Name = "Saudi Arabian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -574,7 +582,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 57,
                             Name = "Miami Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -583,7 +592,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 63,
                             Name = "Emilia Romagna Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -592,7 +602,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 78,
                             Name = "Monaco Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -601,7 +612,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 66,
                             Name = "Spanish Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -610,7 +622,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 70,
                             Name = "Canadian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -619,7 +632,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 71,
                             Name = "Austrian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -628,7 +642,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 52,
                             Name = "British Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -637,7 +652,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 44,
                             Name = "Belgian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -646,7 +662,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 70,
                             Name = "Hungarian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -655,7 +672,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 72,
                             Name = "Dutch Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -664,7 +682,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 53,
                             Name = "Italian Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -673,7 +692,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 51,
                             Name = "Azerbaijan Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -682,7 +702,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 62,
                             Name = "Singapore Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -691,7 +712,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 56,
                             Name = "United States Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -700,7 +722,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 71,
                             Name = "Mexico City Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -709,7 +732,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 71,
                             Name = "São Paulo Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -718,7 +742,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 11, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 50,
                             Name = "Las Vegas Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -727,7 +752,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 57,
                             Name = "Qatar Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         },
                         new
                         {
@@ -736,7 +762,8 @@ namespace F1_Fantasy_API.Migrations
                             Date = new DateTime(2025, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Laps = 58,
                             Name = "Abu Dhabi Grand Prix",
-                            Season = 2025
+                            Season = 2025,
+                            Status = 1
                         });
                 });
 

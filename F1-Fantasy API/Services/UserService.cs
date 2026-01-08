@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using F1_Fantasy_API.Models.Dtos.UserDtos;
-using F1_Fantasy_API.Repositories;
 using F1_Fantasy_API.Repositories.Interfaces;
 using F1_Fantasy_API.Services.Interfaces;
 
@@ -16,8 +15,7 @@ namespace F1_Fantasy_API.Services
             _mapper = mapper;
         }
         public async Task<Result<UserDto>> GetUserByIdAsync(string id)
-        {
-
+        { 
             var user = await _userRepository.GetByIdAsync(id);
 
             if (user == null)
@@ -32,8 +30,9 @@ namespace F1_Fantasy_API.Services
         {
             return Result<IEnumerable<UserDto>>
                              .Success(
-                                 _mapper.Map<IEnumerable<UserDto>>
-                                 (await _userRepository.GetAllAsync()));
+                            _mapper.Map<IEnumerable<UserDto>>
+                            (await _userRepository.GetAllAsync())
+                            );
         }
     }
 }

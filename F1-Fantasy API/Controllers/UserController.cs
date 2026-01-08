@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace F1_Fantasy_API.Controllers;
 
-[Authorize] // Protect user data by default
+[Authorize]
 public class UserController : BaseApiController
 {
     private readonly IUserService _userService;
@@ -24,6 +24,7 @@ public class UserController : BaseApiController
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetById(string id)
     {
         var result = await _userService.GetUserByIdAsync(id);

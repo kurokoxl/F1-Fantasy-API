@@ -77,7 +77,7 @@ namespace F1_Fantasy_API.Data
 
             // Seed Races (2025 F1 Season - 24 races from actual calendar)
             builder.Entity<Race>().HasData(
-                new Race { RaceId = 1, Season = 2025, Name = "Australian Grand Prix", CircuitName = "Albert Park Grand Prix Circuit", Laps = 57, Date = new DateTime(2025, 3, 16) },
+                new Race { RaceId = 1, Season = 2025, Name = "Australian Grand Prix", CircuitName = "Albert Park Grand Prix Circuit", Laps = 57, Date = new DateTime(2025, 3, 16), Status= RaceStatus.Open },
                 new Race { RaceId = 2, Season = 2025, Name = "Chinese Grand Prix", CircuitName = "Shanghai International Circuit", Laps = 56, Date = new DateTime(2025, 3, 23) },
                 new Race { RaceId = 3, Season = 2025, Name = "Japanese Grand Prix", CircuitName = "Suzuka Circuit", Laps = 53, Date = new DateTime(2025, 4, 6) },
                 new Race { RaceId = 4, Season = 2025, Name = "Bahrain Grand Prix", CircuitName = "Bahrain International Circuit", Laps = 57, Date = new DateTime(2025, 4, 13) },

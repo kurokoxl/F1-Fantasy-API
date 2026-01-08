@@ -1,7 +1,6 @@
 ﻿using F1_Fantasy_API.Models.Entites;
-using F1_Fantasy_API.Repositories.Interfaces;
 
-namespace F1_Fantasy_API.Repositories
+namespace F1_Fantasy_API.Repositories.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {

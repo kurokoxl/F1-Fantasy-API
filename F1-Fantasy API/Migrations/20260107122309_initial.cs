@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace F1_Fantasy_API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,7 +54,7 @@ namespace F1_Fantasy_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Constructor",
+                name: "Constructors",
                 columns: table => new
                 {
                     ConstructorId = table.Column<int>(type: "int", nullable: false)
@@ -63,11 +63,11 @@ namespace F1_Fantasy_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Constructor", x => x.ConstructorId);
+                    table.PrimaryKey("PK_Constructors", x => x.ConstructorId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Race",
+                name: "Races",
                 columns: table => new
                 {
                     RaceId = table.Column<int>(type: "int", nullable: false)
@@ -76,11 +76,12 @@ namespace F1_Fantasy_API.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CircuitName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Laps = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Race", x => x.RaceId);
+                    table.PrimaryKey("PK_Races", x => x.RaceId);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,7 +191,7 @@ namespace F1_Fantasy_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Team",
+                name: "Teams",
                 columns: table => new
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false)
@@ -201,9 +202,9 @@ namespace F1_Fantasy_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Team", x => x.TeamId);
+                    table.PrimaryKey("PK_Teams", x => x.TeamId);
                     table.ForeignKey(
-                        name: "FK_Team_AspNetUsers_UserId",
+                        name: "FK_Teams_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -211,7 +212,7 @@ namespace F1_Fantasy_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Driver",
+                name: "Drivers",
                 columns: table => new
                 {
                     DriverId = table.Column<int>(type: "int", nullable: false)
@@ -222,17 +223,17 @@ namespace F1_Fantasy_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Driver", x => x.DriverId);
+                    table.PrimaryKey("PK_Drivers", x => x.DriverId);
                     table.ForeignKey(
-                        name: "FK_Driver_Constructor_ConstructorId",
+                        name: "FK_Drivers_Constructors_ConstructorId",
                         column: x => x.ConstructorId,
-                        principalTable: "Constructor",
+                        principalTable: "Constructors",
                         principalColumn: "ConstructorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ConstructorSelection",
+                name: "ConstructorSelections",
                 columns: table => new
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false),
@@ -241,29 +242,29 @@ namespace F1_Fantasy_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConstructorSelection", x => new { x.RaceId, x.ConstructorId, x.TeamId });
+                    table.PrimaryKey("PK_ConstructorSelections", x => new { x.RaceId, x.ConstructorId, x.TeamId });
                     table.ForeignKey(
-                        name: "FK_ConstructorSelection_Constructor_ConstructorId",
+                        name: "FK_ConstructorSelections_Constructors_ConstructorId",
                         column: x => x.ConstructorId,
-                        principalTable: "Constructor",
+                        principalTable: "Constructors",
                         principalColumn: "ConstructorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ConstructorSelection_Race_RaceId",
+                        name: "FK_ConstructorSelections_Races_RaceId",
                         column: x => x.RaceId,
-                        principalTable: "Race",
+                        principalTable: "Races",
                         principalColumn: "RaceId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ConstructorSelection_Team_TeamId",
+                        name: "FK_ConstructorSelections_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "TeamId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DriverRaceResult",
+                name: "DriverRaceResults",
                 columns: table => new
                 {
                     DriverId = table.Column<int>(type: "int", nullable: false),
@@ -273,23 +274,23 @@ namespace F1_Fantasy_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DriverRaceResult", x => new { x.DriverId, x.RaceId });
+                    table.PrimaryKey("PK_DriverRaceResults", x => new { x.DriverId, x.RaceId });
                     table.ForeignKey(
-                        name: "FK_DriverRaceResult_Driver_DriverId",
+                        name: "FK_DriverRaceResults_Drivers_DriverId",
                         column: x => x.DriverId,
-                        principalTable: "Driver",
+                        principalTable: "Drivers",
                         principalColumn: "DriverId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DriverRaceResult_Race_RaceId",
+                        name: "FK_DriverRaceResults_Races_RaceId",
                         column: x => x.RaceId,
-                        principalTable: "Race",
+                        principalTable: "Races",
                         principalColumn: "RaceId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DriverSelection",
+                name: "DriverSelections",
                 columns: table => new
                 {
                     RaceId = table.Column<int>(type: "int", nullable: false),
@@ -299,29 +300,29 @@ namespace F1_Fantasy_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DriverSelection", x => new { x.RaceId, x.DriverId, x.TeamId });
+                    table.PrimaryKey("PK_DriverSelections", x => new { x.RaceId, x.DriverId, x.TeamId });
                     table.ForeignKey(
-                        name: "FK_DriverSelection_Driver_DriverId",
+                        name: "FK_DriverSelections_Drivers_DriverId",
                         column: x => x.DriverId,
-                        principalTable: "Driver",
+                        principalTable: "Drivers",
                         principalColumn: "DriverId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DriverSelection_Race_RaceId",
+                        name: "FK_DriverSelections_Races_RaceId",
                         column: x => x.RaceId,
-                        principalTable: "Race",
+                        principalTable: "Races",
                         principalColumn: "RaceId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DriverSelection_Team_TeamId",
+                        name: "FK_DriverSelections_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "TeamId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Constructor",
+                table: "Constructors",
                 columns: new[] { "ConstructorId", "Name" },
                 values: new object[,]
                 {
@@ -338,38 +339,38 @@ namespace F1_Fantasy_API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Race",
-                columns: new[] { "RaceId", "CircuitName", "Date", "Laps", "Name", "Season" },
+                table: "Races",
+                columns: new[] { "RaceId", "CircuitName", "Date", "Laps", "Name", "Season", "Status" },
                 values: new object[,]
                 {
-                    { 1, "Albert Park Grand Prix Circuit", new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Australian Grand Prix", 2025 },
-                    { 2, "Shanghai International Circuit", new DateTime(2025, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 56, "Chinese Grand Prix", 2025 },
-                    { 3, "Suzuka Circuit", new DateTime(2025, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 53, "Japanese Grand Prix", 2025 },
-                    { 4, "Bahrain International Circuit", new DateTime(2025, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Bahrain Grand Prix", 2025 },
-                    { 5, "Jeddah Corniche Circuit", new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 50, "Saudi Arabian Grand Prix", 2025 },
-                    { 6, "Miami International Autodrome", new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Miami Grand Prix", 2025 },
-                    { 7, "Autodromo Enzo e Dino Ferrari", new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 63, "Emilia Romagna Grand Prix", 2025 },
-                    { 8, "Circuit de Monaco", new DateTime(2025, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 78, "Monaco Grand Prix", 2025 },
-                    { 9, "Circuit de Barcelona-Catalunya", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 66, "Spanish Grand Prix", 2025 },
-                    { 10, "Circuit Gilles Villeneuve", new DateTime(2025, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 70, "Canadian Grand Prix", 2025 },
-                    { 11, "Red Bull Ring", new DateTime(2025, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 71, "Austrian Grand Prix", 2025 },
-                    { 12, "Silverstone Circuit", new DateTime(2025, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 52, "British Grand Prix", 2025 },
-                    { 13, "Circuit de Spa-Francorchamps", new DateTime(2025, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 44, "Belgian Grand Prix", 2025 },
-                    { 14, "Hungaroring", new DateTime(2025, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 70, "Hungarian Grand Prix", 2025 },
-                    { 15, "Circuit Park Zandvoort", new DateTime(2025, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 72, "Dutch Grand Prix", 2025 },
-                    { 16, "Autodromo Nazionale di Monza", new DateTime(2025, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 53, "Italian Grand Prix", 2025 },
-                    { 17, "Baku City Circuit", new DateTime(2025, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 51, "Azerbaijan Grand Prix", 2025 },
-                    { 18, "Marina Bay Street Circuit", new DateTime(2025, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 62, "Singapore Grand Prix", 2025 },
-                    { 19, "Circuit of the Americas", new DateTime(2025, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 56, "United States Grand Prix", 2025 },
-                    { 20, "Autódromo Hermanos Rodríguez", new DateTime(2025, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 71, "Mexico City Grand Prix", 2025 },
-                    { 21, "Autódromo José Carlos Pace", new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 71, "São Paulo Grand Prix", 2025 },
-                    { 22, "Las Vegas Strip Street Circuit", new DateTime(2025, 11, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 50, "Las Vegas Grand Prix", 2025 },
-                    { 23, "Losail International Circuit", new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Qatar Grand Prix", 2025 },
-                    { 24, "Yas Marina Circuit", new DateTime(2025, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 58, "Abu Dhabi Grand Prix", 2025 }
+                    { 1, "Albert Park Grand Prix Circuit", new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Australian Grand Prix", 2025, 0 },
+                    { 2, "Shanghai International Circuit", new DateTime(2025, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 56, "Chinese Grand Prix", 2025, 1 },
+                    { 3, "Suzuka Circuit", new DateTime(2025, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 53, "Japanese Grand Prix", 2025, 1 },
+                    { 4, "Bahrain International Circuit", new DateTime(2025, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Bahrain Grand Prix", 2025, 1 },
+                    { 5, "Jeddah Corniche Circuit", new DateTime(2025, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 50, "Saudi Arabian Grand Prix", 2025, 1 },
+                    { 6, "Miami International Autodrome", new DateTime(2025, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Miami Grand Prix", 2025, 1 },
+                    { 7, "Autodromo Enzo e Dino Ferrari", new DateTime(2025, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 63, "Emilia Romagna Grand Prix", 2025, 1 },
+                    { 8, "Circuit de Monaco", new DateTime(2025, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 78, "Monaco Grand Prix", 2025, 1 },
+                    { 9, "Circuit de Barcelona-Catalunya", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 66, "Spanish Grand Prix", 2025, 1 },
+                    { 10, "Circuit Gilles Villeneuve", new DateTime(2025, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 70, "Canadian Grand Prix", 2025, 1 },
+                    { 11, "Red Bull Ring", new DateTime(2025, 6, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 71, "Austrian Grand Prix", 2025, 1 },
+                    { 12, "Silverstone Circuit", new DateTime(2025, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 52, "British Grand Prix", 2025, 1 },
+                    { 13, "Circuit de Spa-Francorchamps", new DateTime(2025, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 44, "Belgian Grand Prix", 2025, 1 },
+                    { 14, "Hungaroring", new DateTime(2025, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 70, "Hungarian Grand Prix", 2025, 1 },
+                    { 15, "Circuit Park Zandvoort", new DateTime(2025, 8, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 72, "Dutch Grand Prix", 2025, 1 },
+                    { 16, "Autodromo Nazionale di Monza", new DateTime(2025, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 53, "Italian Grand Prix", 2025, 1 },
+                    { 17, "Baku City Circuit", new DateTime(2025, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 51, "Azerbaijan Grand Prix", 2025, 1 },
+                    { 18, "Marina Bay Street Circuit", new DateTime(2025, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 62, "Singapore Grand Prix", 2025, 1 },
+                    { 19, "Circuit of the Americas", new DateTime(2025, 10, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 56, "United States Grand Prix", 2025, 1 },
+                    { 20, "Autódromo Hermanos Rodríguez", new DateTime(2025, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 71, "Mexico City Grand Prix", 2025, 1 },
+                    { 21, "Autódromo José Carlos Pace", new DateTime(2025, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 71, "São Paulo Grand Prix", 2025, 1 },
+                    { 22, "Las Vegas Strip Street Circuit", new DateTime(2025, 11, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 50, "Las Vegas Grand Prix", 2025, 1 },
+                    { 23, "Losail International Circuit", new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 57, "Qatar Grand Prix", 2025, 1 },
+                    { 24, "Yas Marina Circuit", new DateTime(2025, 12, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 58, "Abu Dhabi Grand Prix", 2025, 1 }
                 });
 
             migrationBuilder.InsertData(
-                table: "Driver",
+                table: "Drivers",
                 columns: new[] { "DriverId", "ConstructorId", "Name", "Price" },
                 values: new object[,]
                 {
@@ -396,7 +397,7 @@ namespace F1_Fantasy_API.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "DriverRaceResult",
+                table: "DriverRaceResults",
                 columns: new[] { "DriverId", "RaceId", "Points", "Position" },
                 values: new object[,]
                 {
@@ -466,38 +467,38 @@ namespace F1_Fantasy_API.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConstructorSelection_ConstructorId",
-                table: "ConstructorSelection",
+                name: "IX_ConstructorSelections_ConstructorId",
+                table: "ConstructorSelections",
                 column: "ConstructorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConstructorSelection_TeamId",
-                table: "ConstructorSelection",
+                name: "IX_ConstructorSelections_TeamId",
+                table: "ConstructorSelections",
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Driver_ConstructorId",
-                table: "Driver",
-                column: "ConstructorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DriverRaceResult_RaceId",
-                table: "DriverRaceResult",
+                name: "IX_DriverRaceResults_RaceId",
+                table: "DriverRaceResults",
                 column: "RaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DriverSelection_DriverId",
-                table: "DriverSelection",
+                name: "IX_Drivers_ConstructorId",
+                table: "Drivers",
+                column: "ConstructorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DriverSelections_DriverId",
+                table: "DriverSelections",
                 column: "DriverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DriverSelection_TeamId",
-                table: "DriverSelection",
+                name: "IX_DriverSelections_TeamId",
+                table: "DriverSelections",
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Team_UserId",
-                table: "Team",
+                name: "IX_Teams_UserId",
+                table: "Teams",
                 column: "UserId",
                 unique: true);
         }
@@ -521,28 +522,28 @@ namespace F1_Fantasy_API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ConstructorSelection");
+                name: "ConstructorSelections");
 
             migrationBuilder.DropTable(
-                name: "DriverRaceResult");
+                name: "DriverRaceResults");
 
             migrationBuilder.DropTable(
-                name: "DriverSelection");
+                name: "DriverSelections");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Driver");
+                name: "Drivers");
 
             migrationBuilder.DropTable(
-                name: "Race");
+                name: "Races");
 
             migrationBuilder.DropTable(
-                name: "Team");
+                name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "Constructor");
+                name: "Constructors");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

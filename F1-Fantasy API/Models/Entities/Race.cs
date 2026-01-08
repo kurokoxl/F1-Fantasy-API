@@ -8,7 +8,8 @@ public class Race
     public string CircuitName { get; set; } = string.Empty;
     public int Laps { get; set; }
     public DateTime Date { get; set; }
-    
+    public RaceStatus Status { get; set; } = RaceStatus.Locked;
+
     // Navigation properties
     public List<DriverRaceResult> DriverRaceResults { get; set; } = new();
     public List<DriverSelection> DriverSelections { get; set; } = new();

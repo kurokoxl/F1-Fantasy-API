@@ -9,6 +9,5 @@ namespace F1_Fantasy_API.Services.Interfaces
         Task<Result<DriverDto>> AddDriverAsync(CreateDriverDto createDto);
         Task<Result<DriverDto>> UpdateDriverAsync(int id, UpdateDriverDto updateDto);
         Task<Result<bool>> DeleteDriver(int id);
-
     }
 }
