@@ -7,5 +7,5 @@ public class Constructor
     
     // Navigation properties
     public List<Driver> Drivers { get; set; } = new();
-    public List<ConstructorSelection> ConstructorSelections { get; set; } = new();
+    public List<Team> Teams { get; set; } = new();
 }

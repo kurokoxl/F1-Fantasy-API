@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using F1_Fantasy_API.Models.Entites;
+using System.ComponentModel.DataAnnotations;
 
 namespace F1_Fantasy_API.Models.Dtos.RaceDtos
 {
@@ -17,6 +18,10 @@ namespace F1_Fantasy_API.Models.Dtos.RaceDtos
         [Required]
         [Range(1, 500)]
         public int Laps { get; set; }
+        [Required]
+
+        public RaceStatus Status { get; set; } = RaceStatus.Locked;
+
         [Required]
         public DateTime Date { get; set; }
     }

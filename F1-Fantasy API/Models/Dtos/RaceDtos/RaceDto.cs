@@ -13,6 +13,7 @@ namespace F1_Fantasy_API.Models.Dtos.RaceDtos
         public string Name { get; set; } = string.Empty;
 
         public string CircuitName { get; set; } = string.Empty;
+        public RaceStatus Status { get; set; }
 
         public int Laps { get; set; }
         public DateTime Date { get; set; }

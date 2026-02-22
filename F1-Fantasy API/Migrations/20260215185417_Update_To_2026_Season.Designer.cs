@@ -4,6 +4,7 @@ using F1_Fantasy_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace F1_Fantasy_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260215185417_Update_To_2026_Season")]
+    partial class Update_To_2026_Season
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,6 +92,26 @@ namespace F1_Fantasy_API.Migrations
                             ConstructorId = 10,
                             Name = "Alpine"
                         });
+                });
+
+            modelBuilder.Entity("F1_Fantasy_API.Models.Entites.ConstructorSelection", b =>
+                {
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ConstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RaceId", "ConstructorId", "TeamId");
+
+                    b.HasIndex("ConstructorId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("ConstructorSelections");
                 });
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Driver", b =>
@@ -281,18 +304,21 @@ namespace F1_Fantasy_API.Migrations
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.DriverSelection", b =>
                 {
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RaceId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsTurbo")
+                        .HasColumnType("bit");
 
-                    b.HasKey("DriverId", "TeamId");
+                    b.HasKey("RaceId", "DriverId", "TeamId");
 
-                    b.HasIndex("RaceId");
+                    b.HasIndex("DriverId");
 
                     b.HasIndex("TeamId");
 
@@ -350,7 +376,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 56,
                             Name = "Chinese Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -360,7 +386,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 53,
                             Name = "Japanese Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -370,7 +396,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 57,
                             Name = "Bahrain Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -380,7 +406,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 50,
                             Name = "Saudi Arabian Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -390,7 +416,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 57,
                             Name = "Miami Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -400,7 +426,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 63,
                             Name = "Emilia Romagna Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -410,7 +436,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 78,
                             Name = "Monaco Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -420,7 +446,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 66,
                             Name = "Spanish Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -430,7 +456,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 70,
                             Name = "Canadian Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -440,7 +466,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 71,
                             Name = "Austrian Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -450,7 +476,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 52,
                             Name = "British Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -460,7 +486,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 44,
                             Name = "Belgian Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -470,7 +496,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 70,
                             Name = "Hungarian Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -480,7 +506,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 72,
                             Name = "Dutch Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -490,7 +516,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 53,
                             Name = "Italian Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -500,7 +526,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 51,
                             Name = "Azerbaijan Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -510,7 +536,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 62,
                             Name = "Singapore Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -520,7 +546,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 56,
                             Name = "United States Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -530,7 +556,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 71,
                             Name = "Mexico City Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -540,7 +566,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 71,
                             Name = "São Paulo Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -550,7 +576,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 50,
                             Name = "Las Vegas Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -560,7 +586,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 57,
                             Name = "Qatar Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         },
                         new
                         {
@@ -570,7 +596,7 @@ namespace F1_Fantasy_API.Migrations
                             Laps = 58,
                             Name = "Abu Dhabi Grand Prix",
                             Season = 2026,
-                            Status = 1
+                            Status = 0
                         });
                 });
 
@@ -581,9 +607,6 @@ namespace F1_Fantasy_API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
-
-                    b.Property<int>("ConstructorId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -597,8 +620,6 @@ namespace F1_Fantasy_API.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TeamId");
-
-                    b.HasIndex("ConstructorId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -807,6 +828,33 @@ namespace F1_Fantasy_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("F1_Fantasy_API.Models.Entites.ConstructorSelection", b =>
+                {
+                    b.HasOne("F1_Fantasy_API.Models.Entites.Constructor", "Constructor")
+                        .WithMany("ConstructorSelections")
+                        .HasForeignKey("ConstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("F1_Fantasy_API.Models.Entites.Race", "Race")
+                        .WithMany("ConstructorSelections")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("F1_Fantasy_API.Models.Entites.Team", "Team")
+                        .WithMany("ConstructorSelections")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Constructor");
+
+                    b.Navigation("Race");
+
+                    b.Navigation("Team");
+                });
+
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Driver", b =>
                 {
                     b.HasOne("F1_Fantasy_API.Models.Entites.Constructor", "Constructor")
@@ -847,7 +895,9 @@ namespace F1_Fantasy_API.Migrations
 
                     b.HasOne("F1_Fantasy_API.Models.Entites.Race", "Race")
                         .WithMany("DriverSelections")
-                        .HasForeignKey("RaceId");
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("F1_Fantasy_API.Models.Entites.Team", "Team")
                         .WithMany("DriverSelections")
@@ -864,19 +914,11 @@ namespace F1_Fantasy_API.Migrations
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Team", b =>
                 {
-                    b.HasOne("F1_Fantasy_API.Models.Entites.Constructor", "Constructor")
-                        .WithMany("Teams")
-                        .HasForeignKey("ConstructorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("F1_Fantasy_API.Models.Entites.User", "User")
                         .WithOne("Team")
                         .HasForeignKey("F1_Fantasy_API.Models.Entites.Team", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Constructor");
 
                     b.Navigation("User");
                 });
@@ -934,9 +976,9 @@ namespace F1_Fantasy_API.Migrations
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Constructor", b =>
                 {
-                    b.Navigation("Drivers");
+                    b.Navigation("ConstructorSelections");
 
-                    b.Navigation("Teams");
+                    b.Navigation("Drivers");
                 });
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Driver", b =>
@@ -948,6 +990,8 @@ namespace F1_Fantasy_API.Migrations
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Race", b =>
                 {
+                    b.Navigation("ConstructorSelections");
+
                     b.Navigation("DriverRaceResults");
 
                     b.Navigation("DriverSelections");
@@ -955,6 +999,8 @@ namespace F1_Fantasy_API.Migrations
 
             modelBuilder.Entity("F1_Fantasy_API.Models.Entites.Team", b =>
                 {
+                    b.Navigation("ConstructorSelections");
+
                     b.Navigation("DriverSelections");
                 });
 

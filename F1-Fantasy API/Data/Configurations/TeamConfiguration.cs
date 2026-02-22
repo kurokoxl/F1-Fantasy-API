@@ -10,6 +10,11 @@ namespace F1_Fantasy_API.Data.Configurations
         {
             builder.HasOne(t => t.User)
                 .WithOne(u => u.Team);
+
+            builder.HasOne(t => t.Constructor)
+                .WithMany(c => c.Teams)
+                .HasForeignKey(t => t.ConstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

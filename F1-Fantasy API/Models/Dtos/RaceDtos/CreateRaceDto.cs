@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using F1_Fantasy_API.Models.Entites;
+using System.ComponentModel.DataAnnotations;
 
 namespace F1_Fantasy_API.Models.Dtos.RaceDtos
 {

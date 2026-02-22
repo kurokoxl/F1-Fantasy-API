@@ -12,6 +12,5 @@ public class Race
 
     // Navigation properties
     public List<DriverRaceResult> DriverRaceResults { get; set; } = new();
-    public List<DriverSelection> DriverSelections { get; set; } = new();
-    public List<ConstructorSelection> ConstructorSelections { get; set; } = new();
+    //public List<DriverSelection> DriverSelections { get; set; } = new();
 }

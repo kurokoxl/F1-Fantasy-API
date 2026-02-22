@@ -2,6 +2,7 @@
 using F1_Fantasy_API.Models.Entites;
 using F1_Fantasy_API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace F1_Fantasy_API.Repositories
 {
@@ -11,20 +12,24 @@ namespace F1_Fantasy_API.Repositories
         {
         }
 
-        public async Task<Team> CheckTeam(string userId)
+        public async Task<DriverSelection?> GetByIdAsync(int teamId, int driverId)
         {
-            var team = await _context.Teams.FirstOrDefaultAsync(t => t.UserId == userId);
-            return team;
+            return await _context.DriverSelections
+                .Include(ds => ds.Driver)
+                .FirstOrDefaultAsync(r => r.TeamId == teamId && r.DriverId == driverId);
         }
 
-        public async Task<int> CountTeam(int teamId,string userId,int raceId)
+        public async Task<IEnumerable<DriverSelection>> GetAllAsync(int teamId)
         {
-            throw new NotImplementedException();
+            return await _context.DriverSelections.AsNoTracking()
+                .Include(ds => ds.Driver)
+                .Where(ds => ds.TeamId == teamId)
+                .ToListAsync();
         }
 
-        public Task<int> CountTeam(Team team)
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Database.BeginTransactionAsync();
         }
     }
 }

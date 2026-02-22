@@ -2,9 +2,10 @@
 {
     public class DriverSelectionDto
     {
-        public int RaceId { get; set; }
         public int TeamId { get; set; }
+        public string DriverName { get; set; }
         public int DriverId { get; set; }
-        public bool IsTurbo { get; set; }
+        public int Price { get; set; }
+
     }
 }

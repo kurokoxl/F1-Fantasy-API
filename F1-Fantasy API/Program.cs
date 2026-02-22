@@ -77,6 +77,12 @@ builder.Services.AddScoped<IConstructorService, ConstructorService>();
 //User
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+//DriverSelection
+builder.Services.AddScoped<IDriverSelectionRepository, DriverSelectionRepository>();
+builder.Services.AddScoped<IDriverSelectionService, DriverSelectionService>();
+//team
+builder.Services.AddScoped<ITeamRepository, TeamRepository>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 var app = builder.Build();
 

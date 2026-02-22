@@ -2,10 +2,8 @@ namespace F1_Fantasy_API.Models.Entites;
 
 public class DriverSelection
 {
-    public int RaceId { get; set; }
     public int TeamId { get; set; }
     public int DriverId { get; set; }
-    public bool IsTurbo { get; set; }
     
     // Navigation properties
     public Team? Team { get; set; }
