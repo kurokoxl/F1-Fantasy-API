@@ -11,19 +11,29 @@ namespace F1_Fantasy_API.Repositories
         {
         }
 
-        private IQueryable<Team> GetTeamQuery() =>
+        //private IQueryable<Team> GetTeamQuery() =>
+        //    _context.Teams
+        //    .Include(t => t.Constructor)
+        //        .Include(t => t.DriverSelections)
+        //        .ThenInclude(ds => ds.Driver);
+       private IQueryable<Team> GetTeamQuery() =>
             _context.Teams
             .Include(t => t.Constructor)
-                .Include(t => t.DriverSelections)
-                .ThenInclude(ds => ds.Driver);
+                .ThenInclude(c => c.Drivers) // Load the drivers for constructor scoring
+            .Include(t => t.DriverSelections)
+                .ThenInclude(ds => ds.Driver); // Load the user's specific driver picks
+
 
         public async Task<Team?> GetTeamByUserIdAsync(string userId) =>
             await GetTeamQuery().FirstOrDefaultAsync(t => t.UserId == userId);
 
-        public  async Task<Team?> GetByIdAsync(int id) =>
+        public async Task<Team?> GetByIdAsync(int id) =>
             await GetTeamQuery().FirstOrDefaultAsync(t => t.TeamId == id);
 
-        public  async Task<IEnumerable<Team>> GetAllAsync() =>
+        public async Task<IEnumerable<Team>> GetAllAsync() =>
             await GetTeamQuery().ToListAsync();
+
+
+
     }
 }

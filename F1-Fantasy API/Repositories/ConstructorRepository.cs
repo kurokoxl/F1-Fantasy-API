@@ -30,5 +30,7 @@ namespace F1_Fantasy_API.Repositories
            return await _context.Drivers
                 .AnyAsync(d => d.ConstructorId == constructorId);
         }
+
+
     }
 }

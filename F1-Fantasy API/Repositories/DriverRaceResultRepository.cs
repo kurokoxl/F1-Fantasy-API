@@ -14,11 +14,11 @@ namespace F1_Fantasy_API.Repositories
 
         }
 
-        public async Task<bool> CheckRaceComplete(int raceId)
+        public async Task<bool> CheckRaceInProgress(int raceId)
         {
-            var race = await _context.Races.FirstOrDefaultAsync(r => r.RaceId == raceId);
+            var race = await _context.Races.FirstOrDefaultAsync(r => r.RaceId == raceId && r.Status == RaceStatus.InProgress);
                 
-            if (race == null || DateTime.UtcNow < race.Date.ToUniversalTime())
+            if (race == null)
             {
                     return false;
             }
@@ -29,6 +29,19 @@ namespace F1_Fantasy_API.Repositories
         {
           return await _context.DriverRaceResults.FirstOrDefaultAsync(r => r.DriverId == driverId && r.RaceId == raceId);
         }
-      
+
+        public async Task<int> GetDriverResult(int driverId, int raceId)
+        {
+            return await _context.DriverRaceResults
+                .Where(drs => drs.RaceId == raceId && drs.DriverId == driverId)
+                .Select(drs => drs.Points)
+                .FirstOrDefaultAsync();
+        }
+        public async Task<IEnumerable<DriverRaceResult>> GetConstructorResultsByRace(int constructorId, int raceId)
+        {
+            return await _context.DriverRaceResults
+                .Where(drr => drr.Driver.ConstructorId == constructorId && drr.RaceId == raceId)
+                .ToListAsync(); 
+        }
     }
 }

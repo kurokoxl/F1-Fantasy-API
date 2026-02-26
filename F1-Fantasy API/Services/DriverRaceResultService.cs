@@ -27,8 +27,8 @@ namespace F1_Fantasy_API.Services
         public async Task<Result<DriverRaceResultDto>> UpsertDriverRaceResultAsync(CreateDriverRaceResultDto createDto)
         {
             //check if the race is finished yet
-            if (await _driverResultRepositroy.CheckRaceComplete(createDto.RaceId) == false)
-                return Result<DriverRaceResultDto>.Failure("Race isn't finished yet");
+            if (await _driverResultRepositroy.CheckRaceInProgress(createDto.RaceId) == false)
+                return Result<DriverRaceResultDto>.Failure("Race not in progress yet or doesn't exisist");
 
              bool isPositionTaken = await _driverResultRepositroy.AnyAsync(r =>
                 r.RaceId == createDto.RaceId &&

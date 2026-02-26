@@ -9,8 +9,8 @@ namespace F1_Fantasy_API.Services.Interfaces
         Task<Result<TeamDto>> GetMyTeam(string userId);
 
         Task<Result<TeamDto>> UpdateTeamAsync(string userId, UpdateTeamDto updateDto);
-
-        //Task<Result<TeamDto>> AddTeamAsync(CreateTeamDto createDto);
+        Task CalculateTeamPoints(int raceId);
+            //Task<Result<TeamDto>> AddTeamAsync(CreateTeamDto createDto);
 
         //Task<Result<bool>> DeleteTeam(int id);
     }

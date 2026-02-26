@@ -2,6 +2,7 @@
 using F1_Fantasy_API.Models.Dtos.RaceDtos;
 using F1_Fantasy_API.Models.Entites;
 using F1_Fantasy_API.Repositories.Interfaces;
+using F1_Fantasy_API.Services.Interfaces;
 
 namespace F1_Fantasy_API.Services
 {
@@ -10,9 +11,11 @@ namespace F1_Fantasy_API.Services
         private readonly IRaceRepository _raceRepository;
 
         private readonly IMapper _mapper;
-        public RaceService(IRaceRepository raceRepository, IMapper mapper)
+        private readonly ITeamService _teamService;
+        public RaceService(IRaceRepository raceRepository, ITeamService teamService, IMapper mapper)
         {
             _raceRepository = raceRepository;
+            _teamService = teamService;
             _mapper = mapper;
         }
         public async Task<Result<RaceDto>> AddRaceAsync(CreateRaceDto createDto)
@@ -68,20 +71,34 @@ namespace F1_Fantasy_API.Services
                     );
         }
 
-        public async Task<Result<RaceDto>> UpdateRaceAsync(int id, UpdateRaceDto updateDto)
+        public async Task<Result<RaceDto>> UpdateRaceAsync(int raceId, UpdateRaceDto updateDto)
         {
             //validate
+            //get old race from db
+            var dbrace = await _raceRepository.GetByIdAsync(raceId);
+            if (dbrace == null)
+                return Result<RaceDto>.Failure("Race dosen't exsist");
 
-            if (id != updateDto.RaceId)
+            if (raceId != updateDto.RaceId)
                 return Result<RaceDto>.Failure("Id mismatch");
 
             var validation = await ValidateRaceLogicAsync(updateDto.Season, updateDto.Status, updateDto.Date, updateDto.RaceId);
-            if (!validation.IsSuccess) return Result<RaceDto>.Failure(validation.Error);
+            if (!validation.IsSuccess) 
+                return Result<RaceDto>.Failure(validation.Error);
 
-            //get old race from db
-            var dbrace = await _raceRepository.GetByIdAsync(id);
-            if (dbrace == null)
-                return Result<RaceDto>.Failure("Race dosen't exsist");
+            //Validate race results 
+            if (updateDto.Status == RaceStatus.Finished && !await _raceRepository.ValidateRaceResults(raceId))
+                return Result<RaceDto>.Failure("Race results are incomplete");
+
+            if (updateDto.Status == RaceStatus.Scored)
+            {
+                if (dbrace.Status != RaceStatus.Finished)
+                    return Result<RaceDto>.Failure("Race isn't finished yet");
+                await _teamService.CalculateTeamPoints(raceId);
+            }
+               
+
+          
 
             //update it
             var race = _mapper.Map(updateDto, dbrace);
@@ -92,7 +109,6 @@ namespace F1_Fantasy_API.Services
             var racedto = _mapper.Map<RaceDto>(race);
             return Result<RaceDto>.Success(racedto);
         }
-
         private async Task<Result<bool>> ValidateRaceLogicAsync(int season, RaceStatus raceStatus, DateTime raceDate, int? excludeRaceId = null)
         {
             // 1. Year Integrity
@@ -102,7 +118,6 @@ namespace F1_Fantasy_API.Services
             }
 
             // 2. Future Date Check - Only for NEW races, not updates
-            // When updating existing race, skip this check
             if (excludeRaceId == null && raceDate.Date < DateTime.UtcNow.Date)
             {
                 return Result<bool>.Failure("Timeline Error: Race date must be in the future.");
