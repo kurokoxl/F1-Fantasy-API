@@ -8,7 +8,7 @@ namespace F1_Fantasy_API.Services.Interfaces
         Task<Result<IEnumerable<DriverSelectionDto>>> GetDriverSelectionsAsync(string userId);
         Task<Result<DriverSelectionDto>> GetDriverSelectionByIdAsync(int driverId,string userId);
         Task<Result<DriverSelectionDto>> AddDriverSelectionAsync(CreateDriverSelectionDto createDto, string userId);
-
+        Task<Result<IEnumerable<DriverSelectionDto>>> AddDriversSelectionAsync(CreateDriversSelectionDto createDto, string userId);
 
         Task<Result<DriverSelectionDto>> UpdateDriverSelectionAsync(int driverId, UpdateDriverSelectionDto updateDto, string userId);
         Task<Result<bool>> DeleteDriverSelection(int id, string userId);

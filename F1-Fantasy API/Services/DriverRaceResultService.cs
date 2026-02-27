@@ -105,5 +105,77 @@ namespace F1_Fantasy_API.Services
                       IEnumerable<DriverRaceResultDto>>(await _driverResultRepositroy.GetAllRaceResults(raceId))
                   );
         }
+
+        public async Task<Result<IEnumerable<DriverRaceResultDto>>> UpsertBulkRaceResultsAsync(CreateBulkRaceResultsDto bulkDto)
+        {
+            // Race valid?
+            if (!await _driverResultRepositroy.CheckRaceInProgress(bulkDto.RaceId))
+                return Result<IEnumerable<DriverRaceResultDto>>.Failure("Race not in progress yet or doesn't exist.");
+
+            // Duplicate positions in the submitted list?
+            var duplicatePositions = bulkDto.Results
+                .GroupBy(r => r.Position)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
+
+            if (duplicatePositions.Count != 0)
+                return Result<IEnumerable<DriverRaceResultDto>>.Failure(
+                    $"Duplicate positions found in your submission: {string.Join(", ", duplicatePositions)}.");
+
+            // Duplicate drivers in the submitted list?
+            var duplicateDrivers = bulkDto.Results
+                .GroupBy(r => r.DriverId)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
+
+            if (duplicateDrivers.Count != 0)
+                return Result<IEnumerable<DriverRaceResultDto>>.Failure(
+                    $"Duplicate driver IDs found in your submission: {string.Join(", ", duplicateDrivers)}.");
+
+            var savedResults = new List<DriverRaceResult>();
+
+            foreach (var entry in bulkDto.Results)
+            {
+                // Is position already taken by a DIFFERENT driver already in the DB?
+                bool isPositionTaken = await _driverResultRepositroy.AnyAsync(r =>
+                    r.RaceId == bulkDto.RaceId &&
+                    r.Position == entry.Position &&
+                    r.DriverId != entry.DriverId);
+
+                if (isPositionTaken)
+                    return Result<IEnumerable<DriverRaceResultDto>>.Failure(
+                        $"Position {entry.Position} is already assigned to another driver in this race.");
+
+                int points = PositionPoints.TryGetValue(entry.Position, out int basePoints) ? basePoints : 0;
+
+                var existingResult = await _driverResultRepositroy.FindDriverResult(entry.DriverId, bulkDto.RaceId);
+
+                if (existingResult != null)
+                {
+                    existingResult.Position = entry.Position;
+                    existingResult.Points = points;
+                    savedResults.Add(existingResult);
+                }
+                else
+                {
+                    var newResult = new DriverRaceResult
+                    {
+                        DriverId = entry.DriverId,
+                        RaceId = bulkDto.RaceId,
+                        Position = entry.Position,
+                        Points = points
+                    };
+                    await _driverResultRepositroy.AddAsync(newResult);
+                    savedResults.Add(newResult);
+                }
+            }
+
+            await _driverResultRepositroy.SaveChangesAsync();
+
+            return Result<IEnumerable<DriverRaceResultDto>>.Success(
+                _mapper.Map<IEnumerable<DriverRaceResultDto>>(savedResults));
+        }
     }
 }

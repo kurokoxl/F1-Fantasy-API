@@ -53,6 +53,18 @@ public class DriverRaceResultController : BaseApiController
         );
     }
 
+    [HttpPost("bulk")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpsertBulk([FromBody] CreateBulkRaceResultsDto bulkDto)
+    {
+        var result = await _service.UpsertBulkRaceResultsAsync(bulkDto);
+
+        if (!result.IsSuccess)
+            return BadRequestError<IEnumerable<DriverRaceResultDto>>(result.Error);
+
+        return Success(result.Value, $"Successfully processed {result.Value.Count()} race results.");
+    }
+
     [HttpPut("{driverId}/{raceId}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int driverId, int raceId, [FromBody] CreateDriverRaceResultDto updateDto)

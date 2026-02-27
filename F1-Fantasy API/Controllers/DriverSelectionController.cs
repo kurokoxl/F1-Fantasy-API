@@ -21,7 +21,16 @@ namespace F1_Fantasy_API.Controllers
                 return BadRequestError<DriverSelectionDto>(result.Error);
             return CreatedSuccess<DriverSelectionDto>(nameof(GetDriverById)
                 , new { driverId = result.Value.DriverId },result.Value, "Created successfully");
+        }
 
+        [HttpPost("Me/lineup")]
+        [Authorize]
+        public async Task<IActionResult> SelectDrivers([FromBody] CreateDriversSelectionDto createDto)
+        {
+            var result = await _driverSelectionService.AddDriversSelectionAsync(createDto, UserId);
+            if (!result.IsSuccess)
+                return BadRequestError<IEnumerable<DriverSelectionDto>>(result.Error);
+            return Success(result.Value, "Both drivers added to your team successfully.");
         }
         //admin
         [HttpGet("Me")]

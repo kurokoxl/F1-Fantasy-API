@@ -153,6 +153,54 @@ namespace F1_Fantasy_API.Services
             return Result<IEnumerable<DriverSelectionDto>>.Success(_mapper.Map<IEnumerable<DriverSelectionDto>>(driverSelections));
         }
 
+        public async Task<Result<IEnumerable<DriverSelectionDto>>> AddDriversSelectionAsync(CreateDriversSelectionDto createDto, string userId)
+        {
+            // Same driver selected twice?
+            if (createDto.DriverOneId == createDto.DriverTwoId)
+                return Result<IEnumerable<DriverSelectionDto>>.Failure("You must select two different drivers.");
+
+            var team = await _teamRepository.GetTeamByUserIdAsync(userId);
+            if (team == null)
+                return Result<IEnumerable<DriverSelectionDto>>.Failure("Team doesn't exist.");
+
+            // Team already has drivers?
+            if (team.DriverSelections.Count > 0)
+                return Result<IEnumerable<DriverSelectionDto>>.Failure("Your team already has drivers selected. Use the swap endpoint to change them.");
+
+            // Open Race?
+            if (!await _raceRepository.ValidateRaceStatus())
+                return Result<IEnumerable<DriverSelectionDto>>.Failure("There's no open race at the moment. Please check the races list.");
+
+            var driverOne = await _driverRepository.GetByIdAsync(createDto.DriverOneId);
+            var driverTwo = await _driverRepository.GetByIdAsync(createDto.DriverTwoId);
+
+            if (driverOne == null || driverTwo == null)
+                return Result<IEnumerable<DriverSelectionDto>>.Failure("One or both drivers were not found.");
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            int totalCost = driverOne.Price + driverTwo.Price;
+            if (totalCost > user.Balance)
+                return Result<IEnumerable<DriverSelectionDto>>.Failure($"Insufficient balance. Total cost is {totalCost}, your balance is {user.Balance}.");
+
+            user.Balance -= totalCost;
+
+            var selectionOne = new DriverSelection { TeamId = team.TeamId, DriverId = driverOne.DriverId };
+            var selectionTwo = new DriverSelection { TeamId = team.TeamId, DriverId = driverTwo.DriverId };
+
+            await _driverSelectionRepository.AddAsync(selectionOne);
+            await _driverSelectionRepository.AddAsync(selectionTwo);
+            await _driverSelectionRepository.SaveChangesAsync();
+
+            var dtos = new List<DriverSelectionDto>
+            {
+                _mapper.Map<DriverSelectionDto>(selectionOne),
+                _mapper.Map<DriverSelectionDto>(selectionTwo)
+            };
+
+            return Result<IEnumerable<DriverSelectionDto>>.Success(dtos);
+        }
+
         public async Task<Result<DriverSelectionDto>> UpdateDriverSelectionAsync(int oldDriverId, UpdateDriverSelectionDto updateDto, string userId)
         {
             using var transaction = await _driverSelectionRepository.BeginTransactionAsync();
