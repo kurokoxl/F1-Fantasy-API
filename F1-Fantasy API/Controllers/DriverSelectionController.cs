@@ -12,7 +12,7 @@ namespace F1_Fantasy_API.Controllers
         {
             _driverSelectionService = driverSelectionService;
         }
-        [HttpPost]
+        [HttpPost("Me")]
         [Authorize]
         public async Task<IActionResult> SelectDriver([FromBody] CreateDriverSelectionDto createDto)
         {
@@ -24,7 +24,7 @@ namespace F1_Fantasy_API.Controllers
 
         }
         //admin
-        [HttpGet]
+        [HttpGet("Me")]
         [Authorize]
         public async Task<IActionResult> GetDrivers()
         {
@@ -36,7 +36,7 @@ namespace F1_Fantasy_API.Controllers
                 
         }
         //user
-        [HttpGet("{driverId}")]
+        [HttpGet("Me/{driverId}")]
         [Authorize]
         public async Task<IActionResult> GetDriverById(int driverId)
         {
@@ -47,7 +47,8 @@ namespace F1_Fantasy_API.Controllers
             return Success<DriverSelectionDto>(result.Value);
 
         }
-        [HttpDelete("{driverId}")]
+        [HttpDelete("Me/{driverId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteDriverSelection(int driverId)
         {
             var result = await _driverSelectionService.DeleteDriverSelection(driverId, UserId);
@@ -56,7 +57,7 @@ namespace F1_Fantasy_API.Controllers
 
             return Success<bool>(result.Value,"Deleted Successfully");
         }
-        [HttpPut("{driverId}")]
+        [HttpPut("Me/{driverId}")]
         [Authorize]
         public async Task<IActionResult> UpdateDriver(int driverId,[FromBody] UpdateDriverSelectionDto updateDto)
         {

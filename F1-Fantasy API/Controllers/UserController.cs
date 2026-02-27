@@ -36,6 +36,7 @@ public class UserController : BaseApiController
     }
 
     [HttpGet("me")]
+    [Authorize]
     public async Task<IActionResult> GetMyProfile()
     {
         if (string.IsNullOrEmpty(UserId))

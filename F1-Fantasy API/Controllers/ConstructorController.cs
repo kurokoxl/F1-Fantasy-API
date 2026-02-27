@@ -1,5 +1,6 @@
 ﻿using F1_Fantasy_API.Models.Dtos.ConstructorDtos;
 using F1_Fantasy_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1_Fantasy_API.Controllers;
@@ -32,6 +33,7 @@ public class ConstructorController : BaseApiController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create([FromBody] CreateConstructorDto createDto)
     {
         var result = await _constructorService.AddConstructorAsync(createDto);
@@ -48,6 +50,7 @@ public class ConstructorController : BaseApiController
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateConstructorDto updateDto)
     {
         var result = await _constructorService.UpdateConstructorAsync(id, updateDto);
@@ -59,6 +62,7 @@ public class ConstructorController : BaseApiController
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _constructorService.DeleteConstructor(id);

@@ -30,6 +30,12 @@ namespace F1_Fantasy_API.Repositories
             }
             return false;
         }
-    }
+
+        public async Task<Race> GetNextOpenRace()
+        {
+            return await _context.Races.FirstOrDefaultAsync(r => r.Status == RaceStatus.Open);
+        }
+
+     }
 }
 

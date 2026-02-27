@@ -79,7 +79,7 @@ namespace F1_Fantasy_API.Services
             return Result<bool>.Success(true);
         }
 
-        public async Task<Result<DriverRaceResultDto>> GetDriverRaceResultByIdAsync(int driverId,int raceId)
+        public async Task<Result<DriverRaceResultDto>> GetResultByIdAsync(int driverId,int raceId)
         {
             var driverResult = await _driverResultRepositroy.FindDriverResult(driverId, raceId);
 
@@ -90,7 +90,7 @@ namespace F1_Fantasy_API.Services
                 (_mapper.Map<DriverRaceResultDto>(driverResult));
         }
 
-        public async Task<Result<IEnumerable<DriverRaceResultDto>>> GetDriverRaceResultsAsync()
+        public async Task<Result<IEnumerable<DriverRaceResultDto>>> GetAllResultsAsync()
         {
             return Result<IEnumerable<DriverRaceResultDto>>
                         .Success(_mapper.Map<
@@ -98,6 +98,12 @@ namespace F1_Fantasy_API.Services
                         );
         }
 
-
+        public async Task<Result<IEnumerable<DriverRaceResultDto>>> GetAllRaceResults(int raceId)
+        {
+            return Result<IEnumerable<DriverRaceResultDto>>
+                  .Success(_mapper.Map<
+                      IEnumerable<DriverRaceResultDto>>(await _driverResultRepositroy.GetAllRaceResults(raceId))
+                  );
+        }
     }
 }

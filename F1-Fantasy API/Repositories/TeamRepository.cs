@@ -16,12 +16,12 @@ namespace F1_Fantasy_API.Repositories
         //    .Include(t => t.Constructor)
         //        .Include(t => t.DriverSelections)
         //        .ThenInclude(ds => ds.Driver);
-       private IQueryable<Team> GetTeamQuery() =>
-            _context.Teams
-            .Include(t => t.Constructor)
-                .ThenInclude(c => c.Drivers) // Load the drivers for constructor scoring
-            .Include(t => t.DriverSelections)
-                .ThenInclude(ds => ds.Driver); // Load the user's specific driver picks
+        private IQueryable<Team> GetTeamQuery() =>
+             _context.Teams
+             .Include(t => t.Constructor)
+                 .ThenInclude(c => c.Drivers) // Load the drivers for constructor scoring
+             .Include(t => t.DriverSelections)
+                 .ThenInclude(ds => ds.Driver); // Load the user's specific driver picks
 
 
         public async Task<Team?> GetTeamByUserIdAsync(string userId) =>
@@ -33,7 +33,19 @@ namespace F1_Fantasy_API.Repositories
         public async Task<IEnumerable<Team>> GetAllAsync() =>
             await GetTeamQuery().ToListAsync();
 
+        public async Task<(IEnumerable<Team> Items, int TotalCount)> GetLeaderboardAsync(int pageNumber, int pageSize)
+        {
+            var totalCount = await _dbSet.CountAsync(); //
 
+            var items = await GetTeamQuery()
+                .OrderByDescending(t => t.TotalPoints)
+                .ThenBy(t => t.Name)
+                .Skip((pageNumber - 1) * pageSize) //
+                .Take(pageSize)                    //
+                .ToListAsync();
 
+            return (items, totalCount);
+
+        }
     }
 }

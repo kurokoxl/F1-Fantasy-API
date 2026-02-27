@@ -2,6 +2,7 @@
 using F1_Fantasy_API.Models.Dtos.RaceDtos;
 using F1_Fantasy_API.Services;
 using F1_Fantasy_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,7 @@ namespace F1_Fantasy_API.Controllers
         }
 
         [HttpPost]
+        [Authorize("Admin")]
         public async Task<IActionResult> AddDriver([FromBody]CreateDriverDto createDto)
         {
             var result = await _driverService.AddDriverAsync(createDto);
@@ -42,6 +44,7 @@ namespace F1_Fantasy_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> UpdateDriver(int id ,[FromBody]UpdateDriverDto updateDto)
         {
             var result = await _driverService.UpdateDriverAsync(id,updateDto);
@@ -51,6 +54,7 @@ namespace F1_Fantasy_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> DeleteDriver(int id)
         {
             var result = await _driverService.DeleteDriver(id);

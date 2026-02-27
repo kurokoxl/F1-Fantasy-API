@@ -50,6 +50,17 @@ namespace F1_Fantasy_API.Services
             return Result<bool>.Success(true);
         }
 
+        public async Task<Result<RaceDto>> GetNextOpenRace()
+        {
+
+            var nextOpen = await _raceRepository.GetNextOpenRace();
+
+            if (nextOpen==null)
+                return Result<RaceDto>.Failure("There's no open race at the moment");
+
+            return Result<RaceDto>.Success(_mapper.Map<RaceDto>(nextOpen));
+        }
+
         public async Task<Result<RaceDto>> GetRaceByIdAsync(int id)
         {
             var race = await _raceRepository.GetByIdAsync(id);

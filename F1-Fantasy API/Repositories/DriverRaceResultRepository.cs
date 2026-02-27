@@ -43,5 +43,10 @@ namespace F1_Fantasy_API.Repositories
                 .Where(drr => drr.Driver.ConstructorId == constructorId && drr.RaceId == raceId)
                 .ToListAsync(); 
         }
+
+        public async Task<IEnumerable<DriverRaceResult>> GetAllRaceResults(int raceId)
+        {
+            return await _context.DriverRaceResults.Where(r => r.RaceId == raceId).ToListAsync();
+        }
     }
 }

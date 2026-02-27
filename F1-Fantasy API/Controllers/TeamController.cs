@@ -62,5 +62,21 @@ namespace F1_Fantasy_API.Controllers
 
             return Success(result.Value, "Team updated successfully");
         }
+        [HttpGet("Leaderboard")]
+        public async Task<IActionResult> GetLeaderBoard([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var result = await _teamService.GetLeaderboardAsnyc(pageNumber, pageSize);
+
+            if (!result.IsSuccess)
+                return BadRequestError<TeamDto>(result.Error);
+
+            // Unpack the tuple values
+            var (teams, totalCount) = result.Value;
+
+            Response.Headers.Add("X-Total-Count", totalCount.ToString());
+            Response.Headers.Add("X-Page-Number", pageNumber.ToString());
+
+            return Success(teams);
+        }
     }
 }

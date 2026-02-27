@@ -10,7 +10,8 @@ namespace F1_Fantasy_API.Services.Interfaces
 
         Task<Result<TeamDto>> UpdateTeamAsync(string userId, UpdateTeamDto updateDto);
         Task CalculateTeamPoints(int raceId);
-            //Task<Result<TeamDto>> AddTeamAsync(CreateTeamDto createDto);
+        Task<Result<(IEnumerable<TeamDto> Items, int TotalCount)>> GetLeaderboardAsnyc(int pageNumber, int pageSize);
+        //Task<Result<TeamDto>> AddTeamAsync(CreateTeamDto createDto);
 
         //Task<Result<bool>> DeleteTeam(int id);
     }

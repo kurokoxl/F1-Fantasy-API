@@ -72,30 +72,21 @@ namespace F1_Fantasy_API.Services
 
             return Result<TeamDto>.Success(_mapper.Map<TeamDto>(team));
         }
-        //public async void CalculateTeamPoints(int raceId)
-        //{
+        public async Task<Result<(IEnumerable<TeamDto> Items, int TotalCount)>> GetLeaderboardAsnyc(int pageNumber, int pageSize)
+        {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize < 1 ? 10 : pageSize;
 
-        //   var race = await _raceRepository.GetByIdAsync(raceId);//include teams
-        //    //include?
-        //    var teams = await _teamRepository.GetAllAsync();//incudes all
-        //    foreach(var team in teams)
-        //    {
-        //        //get driver race result
-        //        foreach (var selection in team.DriverSelections)
-        //        {
-        //           var raceResult=race.DriverRaceResults.FirstOrDefault(drs=>drs.DriverId==selection.DriverId);
-        //           team.TotalPoints += raceResult.Points;
-        //        }
-        //        var constructor = await _constructoRepository.GetByIdAsync(team.ConstructorId);
-        //        foreach (var driver in constructor.Drivers)
-        //        {
-        //            var raceResult = race.DriverRaceResults.FirstOrDefault(drs => drs.DriverId == driver.DriverId);
+            var (entities, totalCount) = await _teamRepository.GetLeaderboardAsync(pageNumber, pageSize);
 
-        //            team.TotalPoints += raceResult.Points;
-        //        }
-        //    }
-        //    return;
-        //}
+            if (totalCount == 0)
+                return Result<(IEnumerable<TeamDto>, int)>.Failure("No teams found");
+
+            var dtos = _mapper.Map<IEnumerable<TeamDto>>(entities);
+
+            return Result<(IEnumerable<TeamDto>, int)>.Success((dtos, totalCount));
+        }
+
         public async Task CalculateTeamPoints(int raceId)
         {
             var race = await _raceRepository.GetRaceWithDriverResult(raceId);
@@ -131,5 +122,29 @@ namespace F1_Fantasy_API.Services
             // 3. Save all team point updates in one batch
             await _teamRepository.SaveChangesAsync();
         }
+        //public async void CalculateTeamPoints(int raceId)
+        //{
+
+        //   var race = await _raceRepository.GetByIdAsync(raceId);//include teams
+        //    //include?
+        //    var teams = await _teamRepository.GetAllAsync();//incudes all
+        //    foreach(var team in teams)
+        //    {
+        //        //get driver race result
+        //        foreach (var selection in team.DriverSelections)
+        //        {
+        //           var raceResult=race.DriverRaceResults.FirstOrDefault(drs=>drs.DriverId==selection.DriverId);
+        //           team.TotalPoints += raceResult.Points;
+        //        }
+        //        var constructor = await _constructoRepository.GetByIdAsync(team.ConstructorId);
+        //        foreach (var driver in constructor.Drivers)
+        //        {
+        //            var raceResult = race.DriverRaceResults.FirstOrDefault(drs => drs.DriverId == driver.DriverId);
+
+        //            team.TotalPoints += raceResult.Points;
+        //        }
+        //    }
+        //    return;
+        //}
     }
 }

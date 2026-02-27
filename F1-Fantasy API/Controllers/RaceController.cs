@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using F1_Fantasy_API.Models.Dtos.RaceDtos;
 using F1_Fantasy_API.Services.Interfaces;
-using F1_Fantasy_API.Models.Dtos.RaceDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 namespace F1_Fantasy_API.Controllers
 {
     [Route("api/[controller]")]
@@ -29,7 +30,16 @@ namespace F1_Fantasy_API.Controllers
                 return NotFoundError<RaceDto>(result.Error);
             return Success<RaceDto>(result.Value);
         }
+        [HttpGet("NextRace")]
+        public async Task<IActionResult> GetNextRace()
+        {
+            var result = await _raceService.GetNextOpenRace();
+            if (!result.IsSuccess)
+                return NotFoundError<RaceDto>(result.Error);
+            return Success<RaceDto>(result.Value);
+        }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddRace([FromBody]CreateRaceDto createDto)
         {
             var result = await _raceService.AddRaceAsync(createDto);
@@ -38,6 +48,7 @@ namespace F1_Fantasy_API.Controllers
             return CreatedSuccess<RaceDto>(nameof(GetRace),new { id = result.Value.RaceId },result.Value,"Successfully created new race");
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateRace(int id,[FromBody]UpdateRaceDto updateDto)
         {
             var result = await _raceService.UpdateRaceAsync(id, updateDto);
@@ -46,6 +57,7 @@ namespace F1_Fantasy_API.Controllers
             return Success<RaceDto>(result.Value);
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRace(int id)
         {
             var result = await _raceService.DeleteRace(id);
@@ -53,5 +65,6 @@ namespace F1_Fantasy_API.Controllers
                 return BadRequest(result.Error);
             return Success<bool>(result.Value,"Deleted successfully");
         }
+
     }
 }

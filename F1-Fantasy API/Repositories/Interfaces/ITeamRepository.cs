@@ -6,6 +6,7 @@ namespace F1_Fantasy_API.Repositories.Interfaces
     {
         Task<Team?> GetTeamByUserIdAsync(string userId);
         Task<Team?> GetByIdAsync(int id);
-      Task<IEnumerable<Team>> GetAllAsync();
+        Task<IEnumerable<Team>> GetAllAsync();
+        Task<(IEnumerable<Team> Items, int TotalCount)> GetLeaderboardAsync(int pageNumber, int pageSize);
     }
 }

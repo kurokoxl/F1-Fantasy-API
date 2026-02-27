@@ -115,7 +115,7 @@ namespace F1_Fantasy_API.Services
                 return Result<bool>.Failure("Driver isn't selected in your team");
 
             _driverSelectionRepository.Delete(driverSelection);
-            await _driverRepository.SaveChangesAsync();
+            await _driverSelectionRepository.SaveChangesAsync();
             return Result<bool>.Success(true);
         }
 

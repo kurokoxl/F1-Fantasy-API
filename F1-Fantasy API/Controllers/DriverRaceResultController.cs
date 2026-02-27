@@ -1,5 +1,6 @@
 ﻿using F1_Fantasy_API.Models.Dtos.RaceResultsDto;
 using F1_Fantasy_API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1_Fantasy_API.Controllers;
@@ -16,21 +17,27 @@ public class DriverRaceResultController : BaseApiController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var result = await _service.GetDriverRaceResultsAsync();
+        var result = await _service.GetAllResultsAsync();
         return Success(result.Value);
     }
     [HttpGet("{driverId}/{raceId}")]
     public async Task<IActionResult> GetById(int driverId, int raceId)
     {
-        var result = await _service.GetDriverRaceResultByIdAsync(driverId, raceId);
+        var result = await _service.GetResultByIdAsync(driverId, raceId);
 
         if (!result.IsSuccess)
             return NotFoundError<DriverRaceResultDto>(result.Error);
 
         return Success(result.Value);
     }
-
+    [HttpGet("{raceId}")]
+    public async Task<IActionResult> GetRaceResults(int raceId)
+    {
+        var result = await _service.GetAllRaceResults(raceId);
+        return Success(result.Value);
+    }
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Upsert([FromBody] CreateDriverRaceResultDto createDto)
     {
         var result = await _service.UpsertDriverRaceResultAsync(createDto);
@@ -47,6 +54,7 @@ public class DriverRaceResultController : BaseApiController
     }
 
     [HttpPut("{driverId}/{raceId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int driverId, int raceId, [FromBody] CreateDriverRaceResultDto updateDto)
     {
         if (driverId != updateDto.DriverId || raceId != updateDto.RaceId)
@@ -63,6 +71,7 @@ public class DriverRaceResultController : BaseApiController
     }
 
     [HttpDelete("{driverId}/{raceId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int driverId, int raceId)
     {
         var result = await _service.DeleteDriverRaceResult(driverId, raceId);
