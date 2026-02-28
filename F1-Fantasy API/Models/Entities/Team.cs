@@ -6,7 +6,7 @@ public class Team
     public string UserId { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public int TotalPoints { get; set; }
-    public int ConstructorId { get; set; }
+    public int ? ConstructorId { get; set; }
     
     // Navigation properties
     public User? User { get; set; }

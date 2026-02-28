@@ -2,7 +2,7 @@
 
 namespace F1_Fantasy_API.Services.Interfaces
 {
-    public interface IDriverRaceResultRaceResultService
+    public interface IDriverRaceResultService
     {
         Task<Result<IEnumerable<DriverRaceResultDto>>> GetAllResultsAsync();
         Task<Result<IEnumerable<DriverRaceResultDto>>> GetAllRaceResults(int raceId);

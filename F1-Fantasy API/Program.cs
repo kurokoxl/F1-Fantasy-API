@@ -70,7 +70,7 @@ builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 //driverRaceResult
 builder.Services.AddScoped<IDriverRaceResultRepository, DriverRaceResultRepository>();
-builder.Services.AddScoped<IDriverRaceResultRaceResultService, DriverRaceResultService>();
+builder.Services.AddScoped<IDriverRaceResultService, DriverRaceResultService>();
 //Constructor
 builder.Services.AddScoped<IConstructorRepository, ConstructorRepository>();
 builder.Services.AddScoped<IConstructorService, ConstructorService>();
@@ -96,6 +96,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await AuthService.SeedRolesAsync(services);
+    await AuthService.SeedAdminAsync(services);
 }
 app.UseHttpsRedirection();
 

@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace F1_Fantasy_API.Services
 {
-    public class DriverRaceResultService : IDriverRaceResultRaceResultService
+    public class DriverRaceResultService : IDriverRaceResultService
     {
         private readonly IDriverRaceResultRepository _driverResultRepositroy;
         private readonly IMapper _mapper;

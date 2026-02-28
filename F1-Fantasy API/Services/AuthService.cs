@@ -22,20 +22,45 @@ namespace F1_Fantasy_API.Services
         }
 
  
-            public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
+        public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string[] roleNames = { "Admin", "User" };
+
+            foreach (var roleName in roleNames)
             {
-                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-                string[] roleNames = { "Admin", "User" };
-
-                foreach (var roleName in roleNames)
-                {
-                    if (!await roleManager.RoleExistsAsync(roleName))
-                    {
-                        await roleManager.CreateAsync(new IdentityRole(roleName));
-                    }
-                }
+                if (!await roleManager.RoleExistsAsync(roleName))
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
             }
+        }
+
+        public static async Task SeedAdminAsync(IServiceProvider serviceProvider)
+        {
+            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+            var config = serviceProvider.GetRequiredService<IConfiguration>();
+
+            var username = config["AdminSeed:Username"]!;
+            var email = config["AdminSeed:Email"]!;
+            var password = config["AdminSeed:Password"]!;
+
+            // Skip if admin already exists
+            if (await userManager.FindByEmailAsync(email) != null)
+                return;
+
+            var admin = new User
+            {
+                UserName = username,
+                Email = email,
+                Balance = 0,
+                Team = new Team { Name = $"{username}'s Team" }
+            };
+
+            var result = await userManager.CreateAsync(admin, password);
+
+            if (result.Succeeded)
+                await userManager.AddToRoleAsync(admin, "Admin");
+        }
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto model)
         {
             var user = new User

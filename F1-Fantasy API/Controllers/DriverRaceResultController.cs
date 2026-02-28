@@ -7,9 +7,9 @@ namespace F1_Fantasy_API.Controllers;
 
 public class DriverRaceResultController : BaseApiController
 {
-    private readonly IDriverRaceResultRaceResultService _service;
+    private readonly IDriverRaceResultService _service;
 
-    public DriverRaceResultController(IDriverRaceResultRaceResultService service)
+    public DriverRaceResultController(IDriverRaceResultService service)
     {
         _service = service;
     }
